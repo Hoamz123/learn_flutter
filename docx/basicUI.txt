@@ -1,0 +1,58 @@
+body: SafeArea(
+          top: true,
+          bottom: true,
+          child: Stack(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  //row top
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      boxMethod(
+                        padding: EdgeInsets.only(bottom: 20.0),
+                        color: Colors.blueAccent,
+                        data: 'Hello world',
+                        alignment: Alignment.bottomCenter,
+                      ),
+                      boxMethod(
+                        padding: EdgeInsets.only(bottom: 20.0),
+                        color: Colors.deepOrange,
+                        data: 'Hello world',
+                        alignment: Alignment.bottomCenter,
+                      ),
+                    ],
+                  ),
+                  //row bottom
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      boxMethod(
+                        padding: EdgeInsets.only(top: 20.0),
+                        color: Colors.amber,
+                        data: 'Hello world',
+                        alignment: Alignment.topCenter,
+                      ),
+                      boxMethod(
+                        padding: EdgeInsets.only(top: 20.0),
+                        color: Colors.greenAccent,
+                        data: 'Hello world',
+                        alignment: Alignment.topCenter,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              Center(
+                child: boxMethod(
+                  color: Colors.deepPurpleAccent,
+                  alignment: Alignment.center,
+                  padding: EdgeInsets.all(0.0),
+                  data: "Center",
+                  isCycle: true,
+                ),
+              ),
+            ],
+          ),
+        ),
