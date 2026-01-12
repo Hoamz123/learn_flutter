@@ -1,4 +1,8 @@
+import 'package:abcd/model/items.dart';
+import 'package:abcd/utils/Logger.dart';
+import 'package:abcd/widget/addTaskBottomSheet.dart';
 import 'package:flutter/material.dart';
+import 'widget/card_body_widget.dart';
 
 void main() {
   runApp(const MyApp());
@@ -7,6 +11,7 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  //StatelessWidget
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -17,7 +22,11 @@ class MyApp extends StatelessWidget {
           centerTitle: true,
           title: const Text(
             'To do list',
-            style: TextStyle(fontSize: 20, color: Colors.white),
+            style: TextStyle(
+              fontSize: 20,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
         body: SafeArea(
@@ -27,56 +36,40 @@ class MyApp extends StatelessWidget {
               horizontal: 16,
             ), //giong nhu padding horizoltal trong jetpack compose
             child: Column(
-              children: [
-                SizedBox(height: 20),
-                itemContainer(color: Colors.blueGrey, task: fakeTask()),
-                itemContainer(color: Colors.blue, task: fakeTask()),
-                itemContainer(color: Colors.blueGrey, task: fakeTask()),
-                itemContainer(color: Colors.blue, task: fakeTask()),
-                itemContainer(color: Colors.blueGrey, task: fakeTask()),
-                itemContainer(color: Colors.blue, task: fakeTask()),
-                itemContainer(color: Colors.blueGrey, task: fakeTask()),
-                itemContainer(color: Colors.blue, task: fakeTask()),
-                itemContainer(color: Colors.blueGrey, task: fakeTask()),
-                itemContainer(color: Colors.blue, task: fakeTask()),
-              ],
+              children: fakeTask()
+                  .map(
+                    (item) => CardBody(
+                      task: item.content,
+                      color: Colors.deepPurpleAccent,
+                    ),
+                  )
+                  .toList(),
             ),
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          backgroundColor: Colors.blue,
-          child: const Icon(Icons.add, color: Colors.white, size: 30),
-        ),
-      ),
-    );
-  }
-
-  Container itemContainer({required Color color, required String task}) {
-    return Container(
-      width: double.infinity, //fill maxWidth
-      height: 80,
-      margin: EdgeInsets.only(bottom: 20),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(14),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withAlpha(9),
-            blurRadius: 30,
-            offset: Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(task, style: TextStyle(fontSize: 16, color: Colors.black)),
-            Icon(Icons.delete, color: Colors.black87),
-          ],
+        floatingActionButton: Builder(
+          builder: (context) {
+            return FloatingActionButton(
+              onPressed: () {
+                Logger.logRed(tag: "HOA", msg: "clicked");
+                showModalBottomSheet(
+                  isScrollControlled: true,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(20),
+                    ),
+                  ),
+                  backgroundColor: Colors.white,
+                  context: context,
+                  builder: (BuildContext content) {
+                    return AddTaskBottomSheet();
+                  },
+                );
+              },
+              backgroundColor: Colors.blue,
+              child: const Icon(Icons.add, color: Colors.white, size: 30),
+            );
+          },
         ),
       ),
     );
@@ -101,28 +94,23 @@ class MyApp extends StatelessWidget {
       child: Text(
         data,
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 20, color: Colors.black),
+        style: TextStyle(fontSize: 20, color: Colors.white),
       ),
     );
   }
 
-  //fake task
-  // fake task
-  String fakeTask() {
-    List<String> data = [
-      'Wake up early',
-      'Go to the gym',
-      'Study Flutter',
-      'Finish homework',
-      'Read a book',
-      'Buy groceries',
-      'Call mom',
-      'Clean the room',
-      'Write daily notes',
-      'Sleep before 11 PM',
+  List<DataItem> fakeTask() {
+    return [
+      DataItem(id: '1', content: 'Wake up early'),
+      DataItem(id: '2', content: 'Brush teeth'),
+      DataItem(id: '3', content: 'Morning exercise'),
+      DataItem(id: '4', content: 'Have breakfast'),
+      DataItem(id: '5', content: 'Go to work'),
+      DataItem(id: '6', content: 'Check emails'),
+      DataItem(id: '7', content: 'Attend meeting'),
+      DataItem(id: '8', content: 'Write code'),
+      DataItem(id: '9', content: 'Review pull request'),
+      DataItem(id: '10', content: 'Read a book'),
     ];
-
-    data.shuffle();
-    return data[0];
   }
 }
